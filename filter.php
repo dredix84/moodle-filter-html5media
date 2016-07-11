@@ -17,9 +17,8 @@
  * @package    filter
  * @subpackage html5media
  * @copyright  Andre Dixon <dredix84@gmail.com>
- * @copyright  2016 onwards Andre Dixon (Dredix Inc) {@link http://www.dredix.net}
+ * @copyright  2016 onwards Andre Dixon (Dredix Inc) {@link https://github.com/dredix84/moodle-filter_html5media}
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
- * 
  */
 defined('MOODLE_INTERNAL') || die();
 
@@ -33,6 +32,9 @@ class filter_html5media extends moodle_text_filter {
 
         if (preg_match_all("/$regexp/siU", $text, $matches)) {
             for ($x = 0; $x < count($matches[0]); $x++) {
+                if ($this->hasRiskyString($matches[2][$x])) {
+                    continue;   //Addresses bug #1, if a dom event is detected, dontattempt replace and move on to next (https://github.com/dredix84/moodle-filter_html5media/issues/1)
+                }
                 $ext = pathinfo($matches[2][$x], PATHINFO_EXTENSION);   //Getting file extension
 
                 if ($this->isMediaExtension($ext) && !in_array($matches[2][$x], $filtered)) {
@@ -88,7 +90,7 @@ class filter_html5media extends moodle_text_filter {
         if ($this->isVideo($ext)) {
             return '<video controls autoplay_no>';
         } else {
-            return '<audio controls>';
+            return '<audio controls style="max-width:200px">';
         }
     }
 
@@ -112,6 +114,16 @@ class filter_html5media extends moodle_text_filter {
      */
     private function isVideo($ext) {
         return in_array($ext, $this->videoExt);
+    }
+
+    /**
+     * Checks the haystack to ensure the string is not dangerous. If found to be, will return true, else false
+     * @param String $haystack String to test
+     * @return boolean
+     */
+    private function hasRiskyString($haystack) {
+        $needle = "on\w+=";
+        return !!preg_match('#\b' . preg_quote($needle, '#') . '\b#i', $haystack);
     }
 
 }
