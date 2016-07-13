@@ -21,7 +21,7 @@ This plugin is not in any way to compete with the multimedia plugin which is par
 ## Requirements
  -  Moodle 2.6 or higher
 
-# Installation
+## Installation
 - Place the "***html5media***" (might need to rename the folder to "***html5media***") directory within your_moodle_install/filter/
 - Visit the admin notifications page and complete the installation.
 - Go to Home / Site administration / Plugins / Filters / Manage filters and turn on ***HTML 5 Multimedia***.
@@ -41,9 +41,12 @@ This plugin is not in any way to compete with the multimedia plugin which is par
 - [Andre Dixon](https://moodle.org/user/profile.php?id=1956202)
 - Website: http://www.dredix.net
 
-License
-----
+## License
 [GNU GPL v3 or later](http://www.gnu.org/copyleft/gpl.html)
+
+## ChangeLog
+[View change log here](https://github.com/dredix84/moodle-filter_html5media/wiki/Change-log)
+
 
 ## Issues and Bug Tracking
 Please report all issues with this plugin to the issues section of this git repository. 
